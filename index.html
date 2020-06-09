@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="referrer" content="never" />
     <title>FLIP demo</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div id="app" v-cloak>
@@ -29,7 +29,7 @@
     <script src="./util.js"></script>
     <script src="./mock.js"></script>
     <script>
-      let initialGetSister = getSisterGenerator()
+      let initialGetSister = getSisterGenerator();
       new Vue({
         el: "#app",
         data() {
@@ -41,83 +41,83 @@
             imgHeights: [],
             imgsLoaded: false,
             leftImgIndexes: [],
-            rightImgIndexes: [],
-          }
+            rightImgIndexes: []
+          };
         },
         async created() {
-          this.loading = true
-          const imgs = this.getSister()
-          await preload(imgs)
-          this.imgs = imgs
-          this.loading = false
+          this.loading = true;
+          const imgs = this.getSister();
+          await preload(imgs);
+          this.imgs = imgs;
+          this.loading = false;
         },
         methods: {
           async add() {
             if (this.adding) {
-              return
+              return;
             }
 
-            this.adding = true
-            const newData = this.getSister()
-            await preload(newData)
-            this.adding = false
+            this.adding = true;
+            const newData = this.getSister();
+            await preload(newData);
+            this.adding = false;
 
             this.scheduleAnimation(() => {
-              this.imgs = newData.concat(this.imgs)
-            })
+              this.imgs = newData.concat(this.imgs);
+            });
           },
           shuffle() {
             this.scheduleAnimation(() => {
-              this.imgs = shuffle(this.imgs)
-            })
+              this.imgs = shuffle(this.imgs);
+            });
           },
           scheduleAnimation(update) {
             // 获取旧图片的位置
-            const prevImgs = this.$refs.imgs.slice()
-            const prevSrcRectMap = createSrcRectMap(prevImgs)
+            const prevImgs = this.$refs.imgs.slice();
+            const prevSrcRectMap = createSrcRectMap(prevImgs);
             // 更新数据
-            update()
+            update();
             // DOM更新后
             this.$nextTick(() => {
-              const currentSrcRectMap = createSrcRectMap(prevImgs)
-              Object.keys(prevSrcRectMap).forEach((src) => {
-                const currentRect = currentSrcRectMap[src]
-                const prevRect = prevSrcRectMap[src]
+              const currentSrcRectMap = createSrcRectMap(prevImgs);
+              Object.keys(prevSrcRectMap).forEach(src => {
+                const currentRect = currentSrcRectMap[src];
+                const prevRect = prevSrcRectMap[src];
 
                 const invert = {
                   left: prevRect.left - currentRect.left,
-                  top: prevRect.top - currentRect.top,
-                }
+                  top: prevRect.top - currentRect.top
+                };
 
                 const keyframes = [
                   {
-                    transform: `translate(${invert.left}px, ${invert.top}px)`,
+                    transform: `translate(${invert.left}px, ${invert.top}px)`
                   },
-                  { transform: "translate(0, 0)" },
-                ]
+                  { transform: "translate(0, 0)" }
+                ];
                 const options = {
                   duration: 300,
-                  easing: "cubic-bezier(0,0,0.32,1)",
-                }
+                  easing: "cubic-bezier(0,0,0.32,1)"
+                };
 
-                const animation = currentRect.img.animate(keyframes, options)
-              })
-            })
+                const animation = currentRect.img.animate(keyframes, options);
+              });
+            });
           },
           reset() {
-            this.getSister = getSisterGenerator()
-            this.imgs = this.getSister()
-          },
-        },
-      })
+            this.getSister = getSisterGenerator();
+            this.imgs = this.getSister();
+          }
+        }
+      });
 
       function createSrcRectMap(imgs) {
         return imgs.reduce((prev, img) => {
-          const rect = img.getBoundingClientRect()
-          const { left, top } = rect
-          prev[img.src] = { left, top, img }
-          return prev
-        }, {})
+          const rect = img.getBoundingClientRect();
+          const { left, top } = rect;
+          prev[img.src] = { left, top, img };
+          return prev;
+        }, {});
       }
     </script>
   </body>

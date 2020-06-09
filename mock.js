@@ -27,21 +27,21 @@ let SISTERS = [
   "https://pic2.zhimg.com/v2-d94530f491f23c61659ef458ac8a9db5_r.jpg",
   "https://pic2.zhimg.com/v2-ff15820a9c1cb8e2bb0af1048ea81145_r.jpg",
   "https://pic4.zhimg.com/v2-a8fb0a1d8581e4bfce905791271711c7_r.jpg",
-  "https://pic2.zhimg.com/v2-1008cd2c72129809cc348cdc04310475_r.jpg",
-]
+  "https://pic2.zhimg.com/v2-1008cd2c72129809cc348cdc04310475_r.jpg"
+];
 
-let initialSize = 8
-let randomSize = [1, 2, 3, 4]
+let initialSize = 8;
+let randomSize = [1, 2, 3, 4];
 
 function getSisterGenerator() {
-  const source = SISTERS.slice()
-  let initial = true
+  const source = SISTERS.slice();
+  let initial = true;
   return () => {
     if (initial) {
-      initial = false
-      return source.splice(0, initialSize)
+      initial = false;
+      return source.splice(0, initialSize);
     }
-    const size = getRandomInt(0, randomSize.length - 1)
-    return source.splice(0, randomSize[size])
-  }
+    const size = getRandomInt(0, randomSize.length - 1);
+    return source.splice(0, randomSize[size]);
+  };
 }
